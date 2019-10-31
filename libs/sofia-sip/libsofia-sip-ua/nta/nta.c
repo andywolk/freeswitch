@@ -8098,7 +8098,12 @@ nta_outgoing_t *outgoing_create(nta_agent_t *agent,
     return retval;
   }
 
-  assert(orq->orq_queue);
+  if (!orq->orq_queue) {
+      SU_DEBUG_5(("nta outgoing create: orq->orq_queue is NULL.\n" VA_NONE));
+      outgoing_free(orq);
+      return NULL;
+  }
+  
 
   outgoing_insert(agent, orq);
 
